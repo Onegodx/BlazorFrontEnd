@@ -1,0 +1,29 @@
+﻿<h3>Properties</h3>
+@using WebApplication1.Models
+@page "/properties"
+@inject HttpClient Http
+
+<h3>Список объектов недвижимости</h3>
+
+@if (properties == null)
+{
+    <p><em>Загрузка...</em></p>
+}
+else
+{
+    <ul>
+        @foreach (var property in properties)
+        {
+            <li>@property.Name - @property.Price</li>
+        }
+    </ul>
+}
+
+@code {
+    private List<Property> properties;
+
+    protected override async Task OnInitializedAsync()
+    {
+        properties = await Http.GetFromJsonAsync<List<Property>>("properties");
+    }
+}
